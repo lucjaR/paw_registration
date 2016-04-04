@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+
+<h:head>
+</h:head>
+
+<h:outputStylesheet name="stylesheet.css" target="head"/>
+
+<h:form>
+
+    <p>
+        <output jsf:id="confirm" name="confirm">
+            Thanks for your registration, #{bean.firstName}..
+        </output>
+            
+    </p>
+    <p>
+        <h:commandButton value="Back" action="registration"/>
+    </p>
+
+</h:form>
+    
+</html>

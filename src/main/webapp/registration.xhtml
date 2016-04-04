@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+<h:head>
+    <link href="resources/stylesheet.css" rel="stylesheet" type="text/css"/>
+
+    <link rel="stylesheet" href="webjars/bootstrap/3.1.0/css/bootstrap.min.css" />
+    <link type="text/css" href="webjars/jquery/2.2.2/jquery.min.js" />
+
+</h:head>
+
+<h:outputStylesheet name="stylesheet.css" target="head"/>
+<body>
+<div class="container">
+<h:form  prependId="false">
+
+    <div id="str_rejestracja">
+    <div class="form-horizontal">
+
+        <div class="form-group row">
+        <label class="col-sm-1 control-label">
+            #{msg.form_firstName}
+        </label>
+            <div class="col-sm-5">
+                <h:inputText id="first_name" required="true"
+                             value="#{bean.firstName}"
+                             requiredMessage="Pole jest wymagane" validatorMessage="Imię ma niepoprawny format"
+                             class="form-control" p:placeholder="Jan"
+                             title="Miejsce na imie">
+                    <f:validateRegex pattern="[A-Za-z]+"/>
+                    <f:validateLength minimum="3" maximum="30">
+
+                    </f:validateLength>
+                </h:inputText>
+                <h:message for="first_name" errorStyle="color:red; display:block"/>
+            </div>
+            <br/>
+        </div>
+
+
+        <div class="form-group row">
+        <label class="col-sm-1 control-label">Nazwisko:</label>
+            <div class="col-sm-5">
+                <h:inputText id="last_name"  name="last_name" required="true"
+                             value="#{bean.lastName}"
+                             requiredMessage="Pole jest wymagane" validatorMessage="Nazwisko ma niepoprawny format"
+                             class="form-control" p:placeholder="Nowak"
+                             title="Miejsce na nazwisko">
+                    <f:validateRegex pattern="[A-Za-z]+"/>
+                    <f:validateLength minimum="3" maximum="30"></f:validateLength>
+                </h:inputText>
+                <h:message for="last_name" errorStyle="color:red; display:block"/>
+            </div>
+            <br/>
+        </div>
+
+
+        <div class="form-group row">
+        <label class="col-sm-1 control-label">Email:</label>
+            <div class="col-sm-5">
+                <h:inputText id="email" required="true" p:placeholder="jan.nowak@gmail.com"
+                             requiredMessage="Pole jest wymagane" validatorMessage="Proszę podać poprawny email"
+                             title="Miejsce na email"
+                             value="#{bean.email}" class="form-control" >
+                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                    <f:validateLength minimum="3" maximum="50"></f:validateLength>
+
+                </h:inputText>
+                <h:message for="email" errorStyle="color:red; display:block"/>
+            </div>
+            <br/>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-1 control-label">Data urodzenia:</label>
+            <div class="col-sm-3">
+                <h:inputText id="birthday" required="true" p:placeholder="2016-01-01"
+                             requiredMessage="Pole jest wymagane" validatorMessage="Proszę podać poprawny poprawną datę urodzenia"
+                             title="Miejsce na datę urodzenia"
+                             value="#{bean.birthday}" class="form-control">
+                    <f:convertDateTime pattern="yyyy-MM-dd" type="date"></f:convertDateTime>
+                    <f:validateRequired ></f:validateRequired>
+                </h:inputText>
+                <h:message for="birthday" errorStyle="color:red; display:block"/>
+            </div>
+
+
+            <label class="col-sm-1 control-label">Nr pesel:</label>
+            <div class="col-sm-3">
+                <h:inputText id="personal_nr" required="true"
+                             requiredMessage="Pole jest wymagane" validatorMessage="Proszę podać poprawny nr pesel"
+                             title="Miejsce na pesel"
+                             value="#{bean.personalNr}" class="form-control"
+                            validator="#{bean.validatePersonalNr}">
+                </h:inputText>
+                <h:message for="personal_nr" errorStyle="color:red; display:block"/>
+            </div>
+            <br/>
+        </div>
+
+        <f:event type="postValidate" listener="#{bean.personalNrAgainstBirthdayValidation}"/>
+
+
+        <div class="form-group row">
+            <label class="col-sm-1 control-label">Ulica:</label>
+            <div class="col-sm-2">
+                <h:inputText id="street" name="street" required="true"
+                             value="#{bean.street}" class="form-control"
+                             requiredMessage="Pole jest wymagane" validatorMessage="Ulica ma niepoprawny format"
+                             title="Nazwa ulicy">
+                    <f:validateRegex pattern="[A-Za-z0-9]+"/>
+                    <f:validateLength minimum="3" maximum="100"></f:validateLength>
+                </h:inputText>
+                <h:message for="street" errorStyle="color:red; display:block"/>
+
+            </div>
+            <label class="col-sm-1 control-label">Nr domu:</label>
+            <div class="col-sm-2">
+                <h:inputText id="house_nr" name="house_nr" required="true"
+                             value="#{bean.houseNr}" class="form-control"
+                             requiredMessage="Pole jest wymagane" validatorMessage="Nr domu ma niepoprawny format"
+                             title="Nr domu">
+                    <f:validateRegex pattern="[0-9a-z]+"/>
+                    <f:validateLength minimum="1" maximum="4"></f:validateLength>
+                </h:inputText>
+                <h:message for="house_nr" errorStyle="color:red; display:block"/>
+            </div>
+            <br/>
+        </div>
+
+
+        <div class="form-group row">
+        <label class="col-sm-1 control-label">Miasto:</label>
+            <div class="col-sm-2">
+                <h:inputText id="town" name="town" required="true"
+                             value="#{bean.town}" class="form-control"
+                             requiredMessage="Pole jest wymagane" validatorMessage="Miasto ma niepoprawny format"
+                             title="Miasto">
+                    <f:validateRegex pattern="[A-Za-z]+"/>
+                    <f:validateLength minimum="1" maximum="20"></f:validateLength>
+                </h:inputText>
+                <h:message for="town" errorStyle="color:red; display:block"/>
+            </div>
+        <label class="col-sm-1 control-label">Kod pocztowy:</label>
+            <div class="col-sm-2">
+                <h:inputText id="postal_code" name="postal_code" required="true" p:placeholder="00-000"
+                             requiredMessage="Pole jest wymagane" validatorMessage="Proszę podać poprawny kod pocztowy"
+                             title="Miejsce na kod pocztowy"
+                             value="#{bean.postalCode}" class="form-control">
+
+                        <f:validateRequired ></f:validateRequired>
+                </h:inputText>
+                <h:message for="postal_code" errorStyle="color:red; display:block"/>
+            </div>
+            <br/>
+        </div>
+
+    </div>
+    <br/>
+
+        <div class="form-inline">
+
+            <div class="center">
+
+                <h:commandButton value="Wyślij" action="#{bean.submit}" class="btn btn-primary"/>
+            </div>
+
+        </div>
+
+    </div>
+
+</h:form>
+
+
+
+
+</div>
+<footer class="footer stopka2">
+
+    <p class="center">http://paw.agh.edu.pl</p>
+
+</footer>
+</body>
+</html>
